@@ -7,7 +7,7 @@ import Vote from './pages/Vote';
 import NotFound from './pages/NotFound';
 
 // ----------------------------------------------------------------------------
-// TODO: create an ApolloClient instance.
+// create an ApolloClient instance.
 // ...
 // ----------------------------------------------------------------------------
 const client = new ApolloClient({
@@ -15,7 +15,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// TODO: update App so that all components are rendered as descendants of an
+// update App so that all components are rendered as descendants of an
 // ApolloProvider component using the ApolloClient instance for the client prop
 // on the ApolloProvider.
 function App() {

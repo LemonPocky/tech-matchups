@@ -1,4 +1,4 @@
-const { Tech, Matchup } = require("../models");
+const { Tech, Matchup } = require('../models');
 
 const resolvers = {
   Query: {
@@ -7,20 +7,18 @@ const resolvers = {
       return Tech.find({});
     },
     matchups: async (parent, { _id }) => {
-      // TODO: if an _id parameter is provided return array with the matchup for
+      // if an _id parameter is provided return array with the matchup for
       // that _id. If no _id parameter is provided, return all matchup
       // documents.
       const params = _id ? { _id } : {};
-      return [];
+      return Matchup.find(params);
     },
   },
   Mutation: {
-   
-      // TODO: create new matchup and return it.
-      createMatchup: async (parent, args) => {
-        const matchup = await Matchup.create(args);
-        return matchup;
-      
+    // create new matchup and return it.
+    createMatchup: async (parent, args) => {
+      const matchup = await Matchup.create(args);
+      return matchup;
     },
     createVote: async (parent, { _id, techNum }) => {
       const vote = await Matchup.findOneAndUpdate(
