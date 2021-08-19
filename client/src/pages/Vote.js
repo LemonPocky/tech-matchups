@@ -1,30 +1,40 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from 'react-router-dom';
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_MATCHUPS } from '../utils/queries';
+import { CREATE_VOTE } from '../utils/mutations';
 
 const Vote = () => {
   // --------------------------------------------------------------------------
-  // TODO: update these lines of code to implement QUERY_MATCHUPS query to get
+  // QUERY_MATCHUPS query to get
   // matchup for a specific id. Hint: how can you get the id of the matchup from
   // the path in the url?
-  const { id } = {};
-  const { loading, data } = {};
+  const { id } = useParams();
+  const { loading, data } = useQuery(QUERY_MATCHUPS, {
+    variables: {
+      _id: id,
+    },
+  });
 
-  const matchup = [{}];
+  const matchup = data?.matchups || [];
   // --------------------------------------------------------------------------
 
   // --------------------------------------------------------------------------
-  // TODO: modify the following line to implement the CREATE_VOTE mutation which
+  // modify the following line to implement the CREATE_VOTE mutation which
   // will be used to update votes for the matchup.
-  const [createVote, { error }] = [, {}];
+  const [createVote, { error }] = useMutation(CREATE_VOTE);
 
   // --------------------------------------------------------------------------
 
   const handleVote = async (techNum) => {
     try {
       // --------------------------------------------------------------------------
-      // TODO: use the createVote function from the CREATE_VOTE mutation to add
+      // use the createVote function from the CREATE_VOTE mutation to add
       // a vote to the matchup for the given techNum.
       //
       // --------------------------------------------------------------------------
+      await createVote({
+        variables: { _id: id, techNum },
+      });
     } catch (err) {
       console.error(err);
     }
@@ -47,7 +57,7 @@ const Vote = () => {
           </h3>
           <button className="btn btn-info" onClick={() => handleVote(1)}>
             Vote for {matchup[0].tech1}
-          </button>{" "}
+          </button>{' '}
           <button className="btn btn-info" onClick={() => handleVote(2)}>
             Vote for {matchup[0].tech2}
           </button>

@@ -1,32 +1,36 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
+import { QUERY_TECH } from '../utils/queries';
+import { CREATE_MATCHUP } from '../utils/mutations';
 
 const Matchup = () => {
-  // TODO: Update the lines below to implement useQuery with QUERY_TECH to load all techs in order to
+  // Update the lines below to implement useQuery with QUERY_TECH to load all techs in order to
   // populate the dropdown controls for creating a matchup.
-  const { data, loading } = {};
+  const { data, loading } = useQuery(QUERY_TECH);
 
-  const techList = [];
+  const techList = data?.tech || [];
   // -----------------------------
 
   const [formData, setFormData] = useState({
-    tech1: "JavaScript",
-    tech2: "JavaScript",
+    tech1: '',
+    tech2: '',
   });
   let history = useHistory();
 
-  // TODO: Update the following lines to implement the useMutation hook and use
+  // Update the following lines to implement the useMutation hook and use
   // the CREATE_MATCHUP mutation to add a new matchup to the database.
-  const [createMatchup, { error }] = [, {}];
+  const [createMatchup, { error }] = useMutation(CREATE_MATCHUP);
   // ---------------------------------------------
-  
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    
-    try {
-      // TODO: add code to submit the form data to the backend to create a new matchup
 
-      
+    try {
+      // submit the form data to the backend to create a new matchup
+      const { data } = await createMatchup({
+        variables: { ...formData },
+      });
       // ---------------------------------------------
 
       history.push(`/matchup/${data.createMatchup._id}`);
@@ -35,8 +39,8 @@ const Matchup = () => {
     }
 
     setFormData({
-      tech1: "JavaScript",
-      tech2: "JavaScript",
+      tech1: 'JavaScript',
+      tech2: 'JavaScript',
     });
   };
 

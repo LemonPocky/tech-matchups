@@ -1,13 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { QUERY_MATCHUPS } from '../utils/queries';
 
 const Home = () => {
   // -----------------------------------------------------------------------
-  // TODO: update the following lines to implement the QUERY_MATCHUPS query to
+  // update the following lines to implement the QUERY_MATCHUPS query to
   // get a list of all the matchups. How can the "no-cache" fetchPolicy option
   // ensure this data stays current?
-  const { loading, data } = {};
-  const matchupList = [];
-  
+  const { loading, data } = useQuery(QUERY_MATCHUPS, {
+    fetchPolicy: 'no-cache',
+  });
+  const matchupList = data?.matchups || [];
+
   // -----------------------------------------------------------------------
 
   return (
