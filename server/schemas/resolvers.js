@@ -3,8 +3,8 @@ const { Tech, Matchup } = require("../models");
 const resolvers = {
   Query: {
     tech: async () => {
-      // TODO: return array containing all Tech documents
-      return [];
+      // return array containing all Tech documents
+      return Tech.find({});
     },
     matchups: async (parent, { _id }) => {
       // TODO: if an _id parameter is provided return array with the matchup for
@@ -15,9 +15,12 @@ const resolvers = {
     },
   },
   Mutation: {
-    createMatchup: async (parent, args) => {
+   
       // TODO: create new matchup and return it.
-      return null;
+      createMatchup: async (parent, args) => {
+        const matchup = await Matchup.create(args);
+        return matchup;
+      
     },
     createVote: async (parent, { _id, techNum }) => {
       const vote = await Matchup.findOneAndUpdate(
